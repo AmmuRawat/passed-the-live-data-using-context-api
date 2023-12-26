@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, {useEffect,useState} from 'react'
+import { Route,Routes } from 'react-router-dom';
+import axios from "axios";
+import Guided from './components/Guided'
+import Mission from './components/Mission'
+import Setting from './components/Setting'
+import Navigation from './components/Navigation'
+import { MyContext } from "./context/Context";
 function App() {
+
+  const [getData, setData] = useState([]);
+  useEffect(() => {
+    const receivedData = async () =>{
+       const response = await axios.get("https://jsonplaceholder.typicode.com/posts/");
+      //  console.log("Data is: ",response);
+       setData(response.data); 
+    }
+    receivedData();
+  },[getData])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Navigation />
+      <div>
+        <Routes>
+           {/* <MyContext.Provider value={{ getData, setData }}> */}
+              <Route path="/" element={<Guided />} />
+              <Route path="/mission" element={<Mission />} />
+              <Route path="/setting" element={<Setting />} />
+           {/* </MyContext.Provider> */}
+          
+        </Routes>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App

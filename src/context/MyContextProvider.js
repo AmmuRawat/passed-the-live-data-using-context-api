@@ -10,15 +10,13 @@ const MyContextProvider = ({ children }) => {
     console.log("finaldata", finaldata);
     setData(finaldata);
   };
-
   useEffect(() => {
     getData();
     const intervalId = setInterval(() => {
       getData();
     }, 1000);
     return () => clearInterval(intervalId);
-  }, []); 
-
+  }, [data]); 
   return (
     <MyContext.Provider value={{ data }}>
       {children}
